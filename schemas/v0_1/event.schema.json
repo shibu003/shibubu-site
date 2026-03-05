@@ -1,0 +1,71 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:event",
+    "title": "LedgerEvent",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "actor_id",
+        "action",
+        "entity_refs",
+        "prev_event_hash",
+        "event_hash"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "pattern": "^evt_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "actor_id": {
+            "type": "string"
+        },
+        "action": {
+            "type": "string",
+            "enum": [
+                "SUBMIT_BILL",
+                "TRANSLATE",
+                "GATE_EVAL",
+                "AUDIT_EVAL",
+                "PUBLISH_BUNDLE",
+                "EMERGENCY_STOP",
+                "EMERGENCY_RESUME"
+            ]
+        },
+        "entity_refs": {
+            "type": "object",
+            "properties": {
+                "bill_id": {
+                    "type": "string"
+                },
+                "bundle_id": {
+                    "type": "string"
+                },
+                "artifact_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "data_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        },
+        "prev_event_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        },
+        "event_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        }
+    },
+    "additionalProperties": false
+}

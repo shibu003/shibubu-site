@@ -1,0 +1,145 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:audit_report",
+    "title": "AuditReport",
+    "type": "object",
+    "required": [
+        "bill_id",
+        "audit_version",
+        "verdict",
+        "severity",
+        "reasons",
+        "translation_integrity",
+        "recommended_action",
+        "audit_provenance"
+    ],
+    "properties": {
+        "bill_id": {
+            "type": "string",
+            "pattern": "^bill_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "audit_version": {
+            "type": "string",
+            "pattern": "^0\\.1\\.[0-9]+$"
+        },
+        "verdict": {
+            "type": "string",
+            "enum": [
+                "PASS",
+                "WARN",
+                "FAIL"
+            ]
+        },
+        "severity": {
+            "type": "string",
+            "enum": [
+                "LOW",
+                "MEDIUM",
+                "HIGH"
+            ]
+        },
+        "reasons": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "code",
+                    "summary",
+                    "evidence"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "summary": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "violated_constraints": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "translation_integrity": {
+            "type": "object",
+            "required": [
+                "status",
+                "notes"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "PASS",
+                        "WARN",
+                        "FAIL"
+                    ]
+                },
+                "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                }
+            },
+            "additionalProperties": false
+        },
+        "recommended_action": {
+            "type": "object",
+            "required": [
+                "status",
+                "required_next_step"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "ALLOW",
+                        "HOLD",
+                        "BLOCK"
+                    ]
+                },
+                "required_next_step": {
+                    "type": "string",
+                    "maxLength": 2000
+                }
+            },
+            "additionalProperties": false
+        },
+        "audit_provenance": {
+            "type": "object",
+            "required": [
+                "auditor_model",
+                "prompt_hash",
+                "timestamp"
+            ],
+            "properties": {
+                "auditor_model": {
+                    "type": "string"
+                },
+                "prompt_hash": {
+                    "type": "string",
+                    "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false
+}

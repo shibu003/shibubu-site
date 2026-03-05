@@ -1,0 +1,6 @@
+-- CreateTable
+CREATE TABLE "SystemState" (
+    "id" TEXT NOT NULL PRIMARY KEY DEFAULT 'global',
+    "halted" BOOLEAN NOT NULL DEFAULT false,
+    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

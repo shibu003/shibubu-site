@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+// --- Instruction 9: Minimal DB Schema ---
+
+model Bill {
+  bill_id       String   @id // bill_<ulid>
+  currentState  String   // DRAFT, SUBMITTED, etc.
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Pointers to latest artifacts (Mutable convenience)
+  latestDraftArtifactId       String?
+  latestTranslationArtifactId String?
+  latestEvidenceArtifactId    String?
+  latestGateArtifactId        String?
+  latestAuditArtifactId       String?
+  latestBundleArtifactId      String?
+  publishedBundleArtifactId   String?
+}
+
+model Artifact {
+  artifactId   String   @id // art_<ulid>
+  artifactType String   // BILL_DRAFT, TRANSLATION, etc.
+  version      String   // 0.1.x
+  billId       String?  // Indexed for lookup
+  createdAt    DateTime @default(now())
+  createdBy    String
+  contentHash  String   // sha256:...
+  hashCanon    String   @default("stable-json-v1")
+  bodyJson     String   // JSON content
+  bodySizeBytes Int?
+
+  @@index([billId])
+  @@index([contentHash])
+}
+
+model LedgerEvent {
+  eventId       String   @id // evt_<ulid>
+  timestamp     DateTime @default(now())
+  actorId       String
+  action        String   // SUBMIT_BILL, TRANSLATE, etc.
+  entityRefs    String   // JSON { bill_id, bundle_id... }
+  dataHash      String   // sha256:...
+  prevEventHash String   // Chain pointer
+  eventHash     String   // Self hash
+
+  @@index([actorId])
+  @@index([action])
+}
+
+// --- Instruction 7: Evaluation & Allocation Engine (Kept) ---
+
+model Agent {
+  id           String   @id @default(cuid())
+  handle       String   @unique
+  status       String   @default("ACTIVE") // ACTIVE | SUSPENDED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastEpochKey String?
+}
+
+model Epoch {
+  id        String   @id @default(cuid())
+  epochKey  String   @unique // e.g. "2026-02-14"
+  startAt   DateTime
+  endAt     DateTime
+  status    String   @default("OPEN") // OPEN | SEALED
+  createdAt DateTime @default(now())
+}
+
+model AgentEpochScore {
+  id          String   @id @default(cuid())
+  agentId     String
+  epochKey    String
+
+  // Metrics (Instruction 7 Components)
+  S            Float
+  C            Float
+  T            Float
+  L            Float
+  R            Float
+
+  // Final Outputs
+  fitness_raw  Float
+  fitness_norm Float
+  
+  // Allocation
+  quota_q       Float
+  tokens_minted Int
+  vote_weight_w Float
+  p_softmax     Float
+
+  // Provenance
+  params_version String
+  calc_hash      String
+  createdAt      DateTime @default(now())
+
+  @@unique([agentId, epochKey])
+  @@index([epochKey])
+}
+
+model AgentEpochCounters {
+  id            String   @id @default(cuid())
+  agentId       String
+  epochKey      String
+  
+  n_fail        Int @default(0)
+  n_warn        Int @default(0)
+  n_auditFail   Int @default(0)
+  n_auditWarn   Int @default(0)
+  n_suspicious  Int @default(0)
+  n_published   Int @default(0)
+
+  createdAt     DateTime @default(now())
+
+  @@unique([agentId, epochKey])
+  @@index([epochKey])
+}
+
+
+// --- Instruction 9 (Revised): Rooms & Move Schema ---
+
+model Room {
+  roomId           String   @id // room_<ulid>
+  name             String
+  purpose          String
+  visibility       String   // PUBLIC | CITIZEN | ADMIN
+  riskTier         String   // LOW | HIGH
+  capabilitiesJson String   // JSON array of capabilities
+  status           String   // ACTIVE | ARCHIVED | TOMBSTONED
+  createdAt        DateTime @default(now())
+  createdBy        String
+  roomHash         String
+
+  actors           Actor[]
+  messages         RoomMessage[]
+}
+
+model Actor {
+  actorId         String   @id // actor_<ulid>
+  actorType       String   // SYSTEM | CITIZEN_AI | AUDITOR_AI | ADMIN | USER
+  displayName     String
+  currentRoomId   String?
+  currentRoom     Room?    @relation(fields: [currentRoomId], references: [roomId])
+  createdAt       DateTime @default(now())
+
+  messages        RoomMessage[]
+}
+
+model RoomMessage {
+  messageId       String   @id // msg_<ulid>
+  roomId          String
+  room            Room     @relation(fields: [roomId], references: [roomId])
+  actorId         String
+  actor           Actor    @relation(fields: [actorId], references: [actorId])
+  content         String
+  createdAt       DateTime @default(now())
+  contentHash     String
+}
+ 
+
+

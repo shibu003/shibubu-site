@@ -1,0 +1,58 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:artifact",
+    "title": "Artifact",
+    "type": "object",
+    "required": [
+        "artifact_id",
+        "artifact_type",
+        "version",
+        "created_at",
+        "created_by",
+        "content_hash",
+        "body"
+    ],
+    "properties": {
+        "artifact_id": {
+            "type": "string",
+            "pattern": "^art_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "artifact_type": {
+            "type": "string",
+            "enum": [
+                "BILL_DRAFT",
+                "BILL",
+                "TRANSLATION",
+                "GATE_DECISION",
+                "AUDIT_REPORT",
+                "DECISION_BUNDLE",
+                "EVIDENCE_BUNDLE",
+                "EPOCH_SCORES",
+                "PURPOSE_REGISTER"
+            ]
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^0\\.1\\.[0-9]+$"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "created_by": {
+            "type": "string"
+        },
+        "content_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        },
+        "hash_canonicalization": {
+            "type": "string",
+            "default": "stable-json-v1"
+        },
+        "body": {
+            "type": "object"
+        }
+    },
+    "additionalProperties": false
+}

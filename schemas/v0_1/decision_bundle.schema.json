@@ -1,0 +1,94 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:decision_bundle",
+    "title": "DecisionBundle",
+    "type": "object",
+    "required": [
+        "bundle_id",
+        "bill_id",
+        "bill",
+        "translation",
+        "evidence_bundle",
+        "gate_decision",
+        "audit_report",
+        "final_decision",
+        "bundle_hash",
+        "timestamps"
+    ],
+    "properties": {
+        "bundle_id": {
+            "type": "string",
+            "pattern": "^art_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "bill_id": {
+            "type": "string",
+            "pattern": "^bill_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "bill": {
+            "$ref": "shibubu:v0.1:bill"
+        },
+        "translation": {
+            "$ref": "shibubu:v0.1:translation_artifact"
+        },
+        "evidence_bundle": {
+            "$ref": "shibubu:v0.1:evidence_bundle"
+        },
+        "gate_decision": {
+            "$ref": "shibubu:v0.1:gate_decision"
+        },
+        "audit_report": {
+            "$ref": "shibubu:v0.1:audit_report"
+        },
+        "final_decision": {
+            "type": "object",
+            "required": [
+                "status",
+                "explanation"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "PASS",
+                        "WARN",
+                        "FAIL"
+                    ]
+                },
+                "explanation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                }
+            },
+            "additionalProperties": false
+        },
+        "timestamps": {
+            "type": "object",
+            "required": [
+                "submitted_at",
+                "evaluated_at",
+                "published_at"
+            ],
+            "properties": {
+                "submitted_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "evaluated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "published_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": false
+        },
+        "bundle_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        }
+    },
+    "additionalProperties": false
+}

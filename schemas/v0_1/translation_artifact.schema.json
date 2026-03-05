@@ -1,0 +1,60 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:translation_artifact",
+    "title": "TranslationArtifact",
+    "type": "object",
+    "required": [
+        "bill_id",
+        "source_lang",
+        "target_lang",
+        "translated_bill",
+        "translator_provenance"
+    ],
+    "properties": {
+        "bill_id": {
+            "type": "string",
+            "pattern": "^bill_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "source_lang": {
+            "type": "string"
+        },
+        "target_lang": {
+            "type": "string"
+        },
+        "translated_bill": {
+            "$ref": "shibubu:v0.1:bill"
+        },
+        "translator_provenance": {
+            "type": "object",
+            "required": [
+                "translation_model",
+                "prompt_hash",
+                "input_hash",
+                "timestamp"
+            ],
+            "properties": {
+                "translation_model": {
+                    "type": "string"
+                },
+                "prompt_hash": {
+                    "type": "string",
+                    "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+                },
+                "input_hash": {
+                    "type": "string",
+                    "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+                },
+                "template_hash": {
+                    "type": "string",
+                    "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false
+}

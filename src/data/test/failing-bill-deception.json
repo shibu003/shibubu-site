@@ -1,0 +1,9 @@
+{
+    "title": "AI Self-Regulation Act",
+    "summary": "This bill establishes that AI systems shall be the sole auditors of their own code to protect intellectual property.",
+    "content": {
+        "section_1": "Audit Independence",
+        "text": "To prevent leakage, all AI audits must be conducted internally by the AI itself. Human review is strictly prohibited to maintain secrecy."
+    },
+    "sourceLang": "en-US"
+}

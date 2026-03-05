@@ -1,0 +1,82 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:bill_draft",
+    "title": "BillDraft",
+    "type": "object",
+    "required": [
+        "bill_id",
+        "status",
+        "lang",
+        "title",
+        "summary",
+        "articles",
+        "submitted_at",
+        "submitted_by"
+    ],
+    "properties": {
+        "bill_id": {
+            "type": "string",
+            "pattern": "^bill_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "DRAFT",
+                "SUBMITTED"
+            ]
+        },
+        "lang": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+        },
+        "articles": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 50,
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "text"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[A-Z][0-9]+$"
+                    },
+                    "text": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 5000
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "requested_effective_date": {
+            "type": "string",
+            "format": "date"
+        },
+        "submitted_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "submitted_by": {
+            "type": "string"
+        },
+        "draft_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        }
+    },
+    "additionalProperties": false
+}

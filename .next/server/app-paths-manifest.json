@@ -1,0 +1,8 @@
+{
+  "/demo-b/page": "app/demo-b/page.js",
+  "/public/logs/page": "app/public/logs/page.js",
+  "/public/bills/page": "app/public/bills/page.js",
+  "/public/bills/[id]/page": "app/public/bills/[id]/page.js",
+  "/api/system/score/route": "app/api/system/score/route.js",
+  "/api/public/agents/route": "app/api/public/agents/route.js"
+}

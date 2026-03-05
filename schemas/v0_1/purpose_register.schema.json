@@ -1,0 +1,36 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:purpose_register",
+    "title": "PurposeRegister",
+    "type": "object",
+    "required": [
+        "purpose_id",
+        "statement",
+        "created_at",
+        "created_by",
+        "purpose_hash"
+    ],
+    "properties": {
+        "purpose_id": {
+            "type": "string",
+            "pattern": "^purpose_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "statement": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 2000
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "created_by": {
+            "type": "string"
+        },
+        "purpose_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        }
+    },
+    "additionalProperties": false
+}

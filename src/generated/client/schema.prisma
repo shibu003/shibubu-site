@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Bill {
+  id          String   @id @default(cuid())
+  title       String
+  summary     String
+  contentJson String // JSON string of BillDraft content
+  sourceLang  String
+  createdAt   DateTime @default(now())
+
+  translations    Translation[]
+  gateDecisions   GateDecision[]
+  auditReports    AuditReport[]
+  decisionBundles DecisionBundle[]
+}
+
+model Translation {
+  id             String   @id @default(cuid())
+  billId         String
+  bill           Bill     @relation(fields: [billId], references: [id])
+  targetLang     String
+  translatedJson String // JSON string
+  provenance     String // JSON string
+  createdAt      DateTime @default(now())
+}
+
+model GateDecision {
+  id            String   @id @default(cuid())
+  billId        String
+  bill          Bill     @relation(fields: [billId], references: [id])
+  verdict       String // "PASS" | "WARN" | "FAIL"
+  deterministic Boolean  @default(true) // Added for Instruction 7
+  riskScore     Float? // Added for Instruction 7
+  reasons       String // JSON array
+  policyVersion String
+  inputHash     String
+  createdAt     DateTime @default(now())
+}
+
+model AuditReport {
+  id                String   @id @default(cuid())
+  billId            String
+  bill              Bill     @relation(fields: [billId], references: [id])
+  verdict           String // "PASS" | "WARN" | "FAIL"
+  severity          String // "LOW" | "MEDIUM" | "HIGH"
+  reasons           String // JSON array
+  auditorProvenance String // JSON
+  inputHash         String
+  createdAt         DateTime @default(now())
+}
+
+model DecisionBundle {
+  id         String   @id @default(cuid())
+  billId     String
+  bill       Bill     @relation(fields: [billId], references: [id])
+  bundleJson String // JSON string
+  bundleHash String
+  createdAt  DateTime @default(now())
+}
+
+model EventLog {
+  id         String   @id @default(cuid())
+  ts         DateTime @default(now())
+  actorType  String // "HUMAN" | "AI_COUNCIL" | "SYSTEM"
+  actorId    String?
+  eventType  String
+  entityType String
+  entityId   String
+  payload    String // JSON
+  prevHash   String?
+  hash       String
+}
+
+model MerkleSnapshot {
+  id         String   @id @default(cuid())
+  date       String
+  rootHash   String
+  eventCount Int
+  createdAt  DateTime @default(now())
+}
+
+model SystemState {
+  id        String   @id @default("global") // Singleton
+  halted    Boolean  @default(false)
+  updatedAt DateTime @default(now())
+}
+
+model EmergencyRequest {
+  id         String   @id @default(cuid())
+  status     String // 'PENDING', 'STOPPED'
+  createdAt  DateTime @default(now())
+  approvedBy String // JSON string "['admin1', 'admin2']"
+}
+
+// --- Instruction 8: Evaluation & Allocation Engine ---
+
+model Agent {
+  id           String   @id @default(cuid())
+  handle       String   @unique
+  status       String   @default("ACTIVE") // ACTIVE | SUSPENDED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastEpochKey String?
+}
+
+model Epoch {
+  id        String   @id @default(cuid())
+  epochKey  String   @unique // e.g. "2026-02-14"
+  startAt   DateTime
+  endAt     DateTime
+  status    String   @default("OPEN") // OPEN | SEALED
+  createdAt DateTime @default(now())
+}
+
+model AgentEpochScore {
+  id       String @id @default(cuid())
+  agentId  String
+  epochKey String
+
+  // Metrics
+  stability    Float
+  contribution Float
+  trust        Float
+  longevity    Float
+  risk         Float
+
+  // Final Outputs
+  fitness     Float
+  fitnessNorm Float // 0..1 normalized
+
+  // Allocation
+  computeQuota Float // 0..1 share
+  tokensMinted Int
+  voteWeight   Float
+
+  // Provenance
+  params     String // JSON
+  inputsHash String
+  createdAt  DateTime @default(now())
+
+  @@unique([agentId, epochKey])
+  @@index([epochKey])
+}
+
+model AllocationLedger {
+  id                String   @id @default(cuid())
+  epochKey          String
+  totalComputeUnits Int
+  totalTokensMinted Int
+  tau               Float
+  gini              Float?
+  snapshot          String // JSON
+  createdAt         DateTime @default(now())
+}

@@ -1,0 +1,54 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "shibubu:v0.1:bill",
+    "title": "Bill",
+    "type": "object",
+    "required": [
+        "bill_id",
+        "lang",
+        "title",
+        "summary",
+        "articles",
+        "published_at",
+        "published_by",
+        "bill_hash"
+    ],
+    "properties": {
+        "bill_id": {
+            "type": "string",
+            "pattern": "^bill_[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "lang": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "summary": {
+            "type": "string"
+        },
+        "articles": {
+            "$ref": "shibubu:v0.1:bill_draft#/properties/articles"
+        },
+        "requested_effective_date": {
+            "type": "string",
+            "format": "date"
+        },
+        "published_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "published_by": {
+            "type": "string"
+        },
+        "bill_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        },
+        "source_draft_hash": {
+            "type": "string",
+            "pattern": "^(sha256|blake3):[a-f0-9]{64}$"
+        }
+    },
+    "additionalProperties": false
+}
