@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { jsonError } from "@/lib/api/errors";
 import { prisma } from "@/lib/db/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request, { params }: { params: { roomId: string } }) {
     try {
         const { roomId } = params;

@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server";
 import { plazaStore } from "@/features/plaza/storage";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
     const messages = plazaStore.getMessages();
     const events = plazaStore.getEvents();

@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server";
 import { plazaStore } from "@/features/plaza/storage";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const limit = parseInt(searchParams.get("limit") || "50");

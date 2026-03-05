@@ -8,6 +8,8 @@ import { buildCitizenPrompt, pickNextSpeaker } from "@/lib/orchestrator/plaza";
 import crypto from "crypto";
 import { PlazaMessage } from "@/features/plaza/types";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(_: Request, { params }: { params: { threadId: string } }) {
     const threadId = params.threadId;
 

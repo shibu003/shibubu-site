@@ -4,6 +4,8 @@ import { plazaStore } from "@/features/plaza/storage";
 import { appendEvent } from "@/lib/chronicle/hashChain";
 import crypto from "crypto";
 
+export const dynamic = "force-dynamic";
+
 export async function POST() {
     const roomId = "room_plaza";
 

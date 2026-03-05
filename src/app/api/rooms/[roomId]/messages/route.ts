@@ -5,6 +5,8 @@ import { createAndPostMessage } from "@/features/plaza/actions";
 import { jsonError } from "@/lib/api/errors";
 
 // GET /api/rooms/:roomId/messages
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request, { params }: { params: { roomId: string } }) {
     const { roomId } = params;
     const { searchParams } = new URL(req.url);

@@ -7,6 +7,8 @@ import { runAuditor } from "@/core/audit/auditor";
 import { appendEvent } from "@/core/ledger/eventLog";
 import { computeHash } from "@/core/ledger/hash"; // Use core hash
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
     try {
         const billRaw = await req.json();

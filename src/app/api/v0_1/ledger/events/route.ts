@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { jsonError } from "@/lib/api/errors";
 // import { prisma } from "@/lib/db/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
     try {
         // Stub implementation compatible with Instruction 9 acceptance

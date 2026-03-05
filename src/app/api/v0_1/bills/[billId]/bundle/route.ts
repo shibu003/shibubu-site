@@ -3,6 +3,8 @@ import { jsonError } from "@/lib/api/errors";
 import { prisma } from "@/lib/db/prisma";
 import { assertState } from "@/lib/api/state";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request, { params }: { params: { billId: string } }) {
     try {
         const { billId } = params;

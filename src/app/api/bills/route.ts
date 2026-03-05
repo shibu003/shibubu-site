@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/db/prisma";
 import { appendEvent } from "@/core/ledger/eventLog";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
     try {
         const body = await req.json();

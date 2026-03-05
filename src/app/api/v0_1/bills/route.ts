@@ -8,6 +8,8 @@ import { emitLedgerEvent } from "@/lib/ledger/ledger";
 import { LEDGER_ACTIONS } from "@/lib/ledger/actions";
 import { createArtifact } from "@/lib/ledger/artifacts";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
     try {
         const input = await req.json();

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { jsonError } from "@/lib/api/errors";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
     try {
         return NextResponse.json(

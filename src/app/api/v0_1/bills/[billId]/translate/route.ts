@@ -6,6 +6,8 @@ import { createArtifact } from "@/lib/ledger/artifacts";
 import { emitLedgerEvent } from "@/lib/ledger/ledger";
 import { LEDGER_ACTIONS } from "@/lib/ledger/actions";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request, { params }: { params: { billId: string } }) { // Next.js App Router params are promise or obj, usually mapped from [param] folder
     try {
         const bill_id = params.billId;

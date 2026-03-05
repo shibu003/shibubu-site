@@ -4,6 +4,8 @@ import { executeTransition } from "@/services/governance/executeTransition";
 import { BillDraft } from "@/core/governance/types";
 import { computeHash } from "@/core/ledger/hash";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request, { params }: { params: { billId: string } }) {
     try {
         const { billId } = params;

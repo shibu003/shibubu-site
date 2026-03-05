@@ -120,86 +120,41 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.BillScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  summary: 'summary',
-  contentJson: 'contentJson',
-  sourceLang: 'sourceLang',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.TranslationScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  targetLang: 'targetLang',
-  translatedJson: 'translatedJson',
-  provenance: 'provenance',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.GateDecisionScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  verdict: 'verdict',
-  deterministic: 'deterministic',
-  riskScore: 'riskScore',
-  reasons: 'reasons',
-  policyVersion: 'policyVersion',
-  inputHash: 'inputHash',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.AuditReportScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  verdict: 'verdict',
-  severity: 'severity',
-  reasons: 'reasons',
-  auditorProvenance: 'auditorProvenance',
-  inputHash: 'inputHash',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.DecisionBundleScalarFieldEnum = {
-  id: 'id',
-  billId: 'billId',
-  bundleJson: 'bundleJson',
-  bundleHash: 'bundleHash',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.EventLogScalarFieldEnum = {
-  id: 'id',
-  ts: 'ts',
-  actorType: 'actorType',
-  actorId: 'actorId',
-  eventType: 'eventType',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  payload: 'payload',
-  prevHash: 'prevHash',
-  hash: 'hash'
-};
-
-exports.Prisma.MerkleSnapshotScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  rootHash: 'rootHash',
-  eventCount: 'eventCount',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.SystemStateScalarFieldEnum = {
-  id: 'id',
-  halted: 'halted',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.EmergencyRequestScalarFieldEnum = {
-  id: 'id',
-  status: 'status',
+  bill_id: 'bill_id',
+  currentState: 'currentState',
   createdAt: 'createdAt',
-  approvedBy: 'approvedBy'
+  updatedAt: 'updatedAt',
+  latestDraftArtifactId: 'latestDraftArtifactId',
+  latestTranslationArtifactId: 'latestTranslationArtifactId',
+  latestEvidenceArtifactId: 'latestEvidenceArtifactId',
+  latestGateArtifactId: 'latestGateArtifactId',
+  latestAuditArtifactId: 'latestAuditArtifactId',
+  latestBundleArtifactId: 'latestBundleArtifactId',
+  publishedBundleArtifactId: 'publishedBundleArtifactId'
+};
+
+exports.Prisma.ArtifactScalarFieldEnum = {
+  artifactId: 'artifactId',
+  artifactType: 'artifactType',
+  version: 'version',
+  billId: 'billId',
+  createdAt: 'createdAt',
+  createdBy: 'createdBy',
+  contentHash: 'contentHash',
+  hashCanon: 'hashCanon',
+  bodyJson: 'bodyJson',
+  bodySizeBytes: 'bodySizeBytes'
+};
+
+exports.Prisma.LedgerEventScalarFieldEnum = {
+  eventId: 'eventId',
+  timestamp: 'timestamp',
+  actorId: 'actorId',
+  action: 'action',
+  entityRefs: 'entityRefs',
+  dataHash: 'dataHash',
+  prevEventHash: 'prevEventHash',
+  eventHash: 'eventHash'
 };
 
 exports.Prisma.AgentScalarFieldEnum = {
@@ -224,30 +179,63 @@ exports.Prisma.AgentEpochScoreScalarFieldEnum = {
   id: 'id',
   agentId: 'agentId',
   epochKey: 'epochKey',
-  stability: 'stability',
-  contribution: 'contribution',
-  trust: 'trust',
-  longevity: 'longevity',
-  risk: 'risk',
-  fitness: 'fitness',
-  fitnessNorm: 'fitnessNorm',
-  computeQuota: 'computeQuota',
-  tokensMinted: 'tokensMinted',
-  voteWeight: 'voteWeight',
-  params: 'params',
-  inputsHash: 'inputsHash',
+  S: 'S',
+  C: 'C',
+  T: 'T',
+  L: 'L',
+  R: 'R',
+  fitness_raw: 'fitness_raw',
+  fitness_norm: 'fitness_norm',
+  quota_q: 'quota_q',
+  tokens_minted: 'tokens_minted',
+  vote_weight_w: 'vote_weight_w',
+  p_softmax: 'p_softmax',
+  params_version: 'params_version',
+  calc_hash: 'calc_hash',
   createdAt: 'createdAt'
 };
 
-exports.Prisma.AllocationLedgerScalarFieldEnum = {
+exports.Prisma.AgentEpochCountersScalarFieldEnum = {
   id: 'id',
+  agentId: 'agentId',
   epochKey: 'epochKey',
-  totalComputeUnits: 'totalComputeUnits',
-  totalTokensMinted: 'totalTokensMinted',
-  tau: 'tau',
-  gini: 'gini',
-  snapshot: 'snapshot',
+  n_fail: 'n_fail',
+  n_warn: 'n_warn',
+  n_auditFail: 'n_auditFail',
+  n_auditWarn: 'n_auditWarn',
+  n_suspicious: 'n_suspicious',
+  n_published: 'n_published',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.RoomScalarFieldEnum = {
+  roomId: 'roomId',
+  name: 'name',
+  purpose: 'purpose',
+  visibility: 'visibility',
+  riskTier: 'riskTier',
+  capabilitiesJson: 'capabilitiesJson',
+  status: 'status',
+  createdAt: 'createdAt',
+  createdBy: 'createdBy',
+  roomHash: 'roomHash'
+};
+
+exports.Prisma.ActorScalarFieldEnum = {
+  actorId: 'actorId',
+  actorType: 'actorType',
+  displayName: 'displayName',
+  currentRoomId: 'currentRoomId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RoomMessageScalarFieldEnum = {
+  messageId: 'messageId',
+  roomId: 'roomId',
+  actorId: 'actorId',
+  content: 'content',
+  createdAt: 'createdAt',
+  contentHash: 'contentHash'
 };
 
 exports.Prisma.SortOrder = {
@@ -263,18 +251,15 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Bill: 'Bill',
-  Translation: 'Translation',
-  GateDecision: 'GateDecision',
-  AuditReport: 'AuditReport',
-  DecisionBundle: 'DecisionBundle',
-  EventLog: 'EventLog',
-  MerkleSnapshot: 'MerkleSnapshot',
-  SystemState: 'SystemState',
-  EmergencyRequest: 'EmergencyRequest',
+  Artifact: 'Artifact',
+  LedgerEvent: 'LedgerEvent',
   Agent: 'Agent',
   Epoch: 'Epoch',
   AgentEpochScore: 'AgentEpochScore',
-  AllocationLedger: 'AllocationLedger'
+  AgentEpochCounters: 'AgentEpochCounters',
+  Room: 'Room',
+  Actor: 'Actor',
+  RoomMessage: 'RoomMessage'
 };
 
 /**

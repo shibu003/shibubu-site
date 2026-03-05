@@ -3,6 +3,8 @@ import { prisma } from "@/db/prisma";
 import { translateBillDraft } from "@/core/translation/translate";
 import { appendEvent } from "@/core/ledger/eventLog";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request, { params }: { params: { billId: string } }) {
     try {
         const { searchParams } = new URL(req.url);

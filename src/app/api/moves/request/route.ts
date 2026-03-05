@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { requestMove } from "@/features/plaza/moves";
 import { jsonError } from "@/lib/api/errors";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
     try {
         const body = await req.json();

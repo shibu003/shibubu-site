@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/db/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request, { params }: { params: { billId: string } }) {
     const bundle = await prisma.decisionBundle.findFirst({
         where: { billId: params.billId },

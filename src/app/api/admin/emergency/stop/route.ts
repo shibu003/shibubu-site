@@ -9,6 +9,8 @@ function generateId() {
     return Math.random().toString(36).substring(2, 15);
 }
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
     try {
         const body = await req.json();
