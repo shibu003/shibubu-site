@@ -51,13 +51,13 @@ export default function PlazaPage() {
     }
 
     async function refreshAll(tid: string) {
-        const t = await fetch(\`/api/threads/\${tid}\`);
+        const t = await fetch(`/api/threads/${tid}`);
     const tj = await t.json();
     if (tj.ok) {
       setAgents(tj.agents);
       setMessages(tj.messages);
     }
-    const c = await fetch(\`/api/chronicle?limit=60\`);
+    const c = await fetch(`/api/chronicle?limit=60`);
     const cj = await c.json();
     if (cj.ok) setEvents(cj.events);
   }
@@ -66,7 +66,7 @@ export default function PlazaPage() {
     if (!threadId || busy) return;
     setBusy(true);
     try {
-      await fetch(\`/api/threads/\${threadId}/step\`, { method: "POST" });
+      await fetch(`/api/threads/${threadId}/step`, { method: "POST" });
       await refreshAll(threadId);
     } finally {
       setBusy(false);

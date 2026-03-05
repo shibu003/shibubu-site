@@ -23,10 +23,10 @@ export async function runPlazaThreadStep(threadId: string) {
     const allMsgs = plazaStore.getMessages().filter(m => m.thread_id === threadId);
     // Sort by turn index just in case, though append-only usually ordered
     const contextMsgs = allMsgs.slice(-5);
-    const contextText = contextMsgs.map(m => \`\${m.speaker_id}: \${m.content}\`).join("\n");
+    const contextText = contextMsgs.map(m => `${m.speaker_id}: ${m.content}`).join("\n");
 
     // 4. Run LLM
-    const prompt = \`Context:\n\${contextText}\n\nYou are \${speakerId}. Reply to the discussion about "\${thread.topic}".\`;
+    const prompt = `Context:\n${contextText}\n\nYou are ${speakerId}. Reply to the discussion about "${thread.topic}".`;
     const draft = await runModel({ profile: "public_explain", prompt });
 
     // 5. Gate

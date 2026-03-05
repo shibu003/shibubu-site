@@ -14,7 +14,7 @@ export function validateOrThrow<T>(schemaId: string, data: any): T {
     ensureRegistered();
     const validate = ajv.getSchema(schemaId);
     if (!validate) {
-        const err = new Error(\`SCHEMA_NOT_FOUND:\${schemaId}\`);
+        const err = new Error(`SCHEMA_NOT_FOUND:${schemaId}`);
     (err as any).status = 500;
     throw err;
   }

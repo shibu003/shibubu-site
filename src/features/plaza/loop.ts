@@ -18,10 +18,10 @@ const MOCK_TOPICS = [
 function generateMockContent(actor: string, intent: string, context: PlazaMessage[]): string {
     if (intent === "topic") {
         const topic = MOCK_TOPICS[Math.floor(Math.random() * MOCK_TOPICS.length)];
-        return \`TOPIC: \${topic}
+        return `TOPIC: ${topic}
 WHY IT MATTERS: It defines our core purpose.
 POTENTIAL RISKS: Misalignment of values.
-UNCERTAINTY: MEDIUM\`;
+UNCERTAINTY: MEDIUM`;
     }
     if (intent === "argument") {
         return "I propose we prioritize stability over growth to reduce risk variance.";

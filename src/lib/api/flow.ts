@@ -52,7 +52,7 @@ export async function executeFlow(ctx: FlowContext) {
             if (!bill) throw new Error("Bill not found");
 
             if (ctx.prevState && bill.currentState !== ctx.prevState) {
-                throw new Error(\`Invalid state: expected \${ctx.prevState}, got \${bill.currentState}\`);
+                throw new Error(`Invalid state: expected ${ctx.prevState}, got ${bill.currentState}`);
             }
 
             // B. Assert Transition

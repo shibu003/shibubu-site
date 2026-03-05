@@ -11,6 +11,10 @@ node_modules
 dist
 dist-ssr
 *.local
+.next
+.npm-cache
+.npm-cache-3
+.plaza_data
 
 # Editor directories and files
 .vscode/*

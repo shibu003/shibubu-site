@@ -38,7 +38,7 @@ export async function POST(_: Request, { params }: { params: { threadId: string 
     const draft = await runModel({ profile: "public_explain", prompt });
 
     const gate = lightGate(draft.text);
-    const messageId = \`msg_\${crypto.randomUUID()}\`;
+    const messageId = `msg_${crypto.randomUUID()}`;
 
   const finalText = gate.status === "FAIL" ? "[BLOCKED BY POLICY GATE]" : draft.text;
 

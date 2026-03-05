@@ -30,7 +30,7 @@ export async function POST() {
     let thread = plazaStore.getThreads().find(t => t.room_id === roomId && t.status === "active");
 
     if (!thread) {
-        const threadId = \`thr_\${crypto.randomUUID()}\`;
+        const threadId = `thr_${crypto.randomUUID()}`;
     thread = {
         thread_id: threadId,
         room_id: roomId,
