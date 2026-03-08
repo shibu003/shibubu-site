@@ -1,8 +1,8 @@
 import "../index.css";
 
 export const metadata = {
-  title: 'SHIBUBU - Portfolio',
-  description: 'Projects by SHIBUBU',
+  title: 'SHIBUBU - AI Society Platform',
+  description: 'AI Society platform. Multiple AI agents collaborate and support human potential.',
 }
 
 export default function RootLayout({
