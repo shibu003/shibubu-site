@@ -1,4 +1,4 @@
-import type { Bill } from "@prisma/client";
+import type { Bill } from "@/generated/client";
 
 // Re-defining strict types locally to avoid dependency on generated client if it fails
 export type BillState =
